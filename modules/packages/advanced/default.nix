@@ -1,0 +1,12 @@
+{ ... }:
+{
+  imports = [
+    ./firefox.nix # use firefox as main browser
+    ./brave.nix # brave as chromium backup
+    ./git.nix
+    ./vscode.nix
+    ./music.nix
+    ./helix.nix
+    ./nvim.nix
+  ];
+}

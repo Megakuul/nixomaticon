@@ -1,0 +1,29 @@
+local options = {
+  formatters_by_ft = {
+    lua = { "stylua" },
+    css = { "prettierd" },
+    html = { "prettierd" },
+    svelte = { "prettierd" },
+    javascript = { "prettierd" },
+    typescript = { "prettierd" },
+    json = { "prettierd" },
+    templ = { "templ" },
+    go = { "goimports", "gofumpt" },
+    c = { "clang_format" },
+    cpp = { "clang_format" },
+    ocaml = { "ocamlformat" },
+    nix = { "alejandra" },
+    yaml = { "yamlfmt" },
+    rust = { "rustfmt" },
+    python = { "ruff_fix", "ruff_organize_imports", "ruff_format" },
+    bash = { "shfmt" },
+    proto = { "buf" },
+  },
+
+  format_on_save = {
+    lsp_format = "first",
+    timeout_ms = 2000,
+  },
+}
+
+return options

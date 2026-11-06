@@ -1,0 +1,62 @@
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  home.packages = with pkgs; [
+    # generally useful
+    vim
+    ncdu
+    tldr
+    dig
+    file
+    killall
+    jq
+    ffmpeg
+    unzip
+    ripunzip
+    libarchive
+    gzip
+    pigz
+    xz
+    zstd
+    lz4
+    p7zip
+    unrar
+    atool
+    gnupg
+    curl
+    wget
+    lsof
+    psmisc
+    man-pages # extra man pages
+    tree-sitter
+    nmap
+    vim
+    mplayer
+
+    # multimedia
+    pamixer # pulseaudio command line mixer
+    playerctl # controller for media players
+    yt-dlp-light # download youtube videos
+    castero # music player
+
+    # analysis
+    binsider # elf analyzer tui
+    step-cli
+    openssl
+    osslsigncode
+
+    # remotemanagement
+    teleport_18
+
+    # wine
+    winetricks
+
+    # documentation stuff
+    asciidoc-full-with-plugins
+    typst
+    typstyle
+    typst-live
+  ];
+}
