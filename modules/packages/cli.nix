@@ -32,7 +32,6 @@
     man-pages # extra man pages
     tree-sitter
     nmap
-    vim
     mplayer
 
     # multimedia
@@ -42,10 +41,7 @@
     castero # music player
 
     # analysis
-    binsider # elf analyzer tui
-    step-cli
     openssl
-    osslsigncode
 
     # remotemanagement
     teleport_18
@@ -53,8 +49,7 @@
     # wine
     winetricks
 
-    # documentation stuff
-    asciidoc-full-with-plugins
+    # documentation (asciidoc lives in project flakes, it is 2.4 GB)
     typst
     typstyle
     typst-live

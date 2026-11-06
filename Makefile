@@ -1,13 +1,22 @@
-.PHONY: switch upgrade update check dev-voiper dev-vibebender test
+.PHONY: switch gpu upgrade update check dev-voiper dev-vibebender test
 
 # Apply the config (packages, dotfiles, desktop, custom/* builds).
 switch:
 	nh home switch $(CURDIR)
+	@$(MAKE) --no-print-directory gpu
 
-# Everything: Fedora + COPR, flatpaks, firmware, Nix itself, all flake inputs.
+# Point /run/opengl-driver at this config's Mesa (needs sudo, only when it changed).
+gpu:
+	@setup=$$(readlink -f $(HOME)/.nix-profile/bin/non-nixos-gpu-setup); \
+	want=$$(grep -o '/nix/store/[^ ]*' $$(dirname $$setup)/../lib/tmpfiles.d/non-nixos-gpu.conf | tail -1); \
+	if [ "$$(readlink /run/opengl-driver)" = "$$want" ]; then echo "GPU drivers up to date"; \
+	else echo "Updating GPU drivers (sudo)"; sudo $$setup; fi
+
+# Everything: Fedora packages, flatpaks, ArtCraft apps, firmware, Nix itself, all flake inputs.
 upgrade:
 	sudo dnf upgrade --refresh -y
 	flatpak update -y
+	./artcraft.sh
 	-fwupdmgr refresh --force && fwupdmgr update -y
 	sudo determinate-nixd upgrade
 	$(MAKE) update

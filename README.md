@@ -5,7 +5,7 @@
 | Path | What |
 | --- | --- |
 | `profile.nix` | your username, git identity, teleport proxy |
-| `modules/` | beastos home modules, `fedora.nix` (non-NixOS glue), `informaticon/` (twinkle, voiper, vibebender) |
+| `modules/` | beastos home modules, `fedora.nix` (non-NixOS glue), `informaticon/` (voiper, vibebender) |
 | `custom/voiper`, `custom/vibebender` | vendored sources (plain files in this repo), built on every switch |
 | `bootstrap.sh` | one-time root setup |
 
@@ -36,6 +36,7 @@ After the reboot: LUKS passphrase → GDM login (pick **Hyprland (nix)** at the 
 
 `bootstrap.sh` does all of this:
 - installs swaylock, docker, libvirt, swtpm and waydroid with dnf, and adds you to `docker,libvirt,input`
+- installs the [ArtCraft](https://github.com/storytold) apps as rpms via `artcraft.sh`: PhotoCraft, VectorCraft, FilmCraft, LightCraft, EffectCraft, DesignCraft, PdfCraft (the Adobe set), WordCraft, GridCraft, DeckCraft (office) and the ArtCraft Launcher
 - runs the first `home-manager switch`, then `non-nixos-gpu-setup` (GPU drivers for nix programs)
 - keeps bash as login shell (terminals start fish), so TTY login never depends on nix
 - adds the `Hyprland (nix)` session to GDM
@@ -50,15 +51,16 @@ cd ~/.config/git && ssh-keygen -f signingkey && ssh-keygen -f github && ssh-keyg
 ## Upgrade everything
 
 ```sh
-make upgrade    # dnf + COPR, flatpaks, firmware, Nix itself, fresh pins for all inputs, switch
+make upgrade    # dnf, flatpaks, ArtCraft apps, firmware, Nix itself, fresh pins for all inputs, switch
 make update     # only nix side: nix flake update + switch (nvd shows the diff)
 make switch     # apply local changes (also rebuilds custom/* from your working tree)
 ```
 
 - A new Fedora release: `sudo dnf system-upgrade download --releasever=<N+1> && sudo dnf system-upgrade reboot`.
-- If home-manager warns about GPU drivers: `sudo $(readlink -f ~/.nix-profile/bin/non-nixos-gpu-setup)`.
-- Hyprland follows kiwi-shell's own nixpkgs, because kiwi's Hyprland plugin must match the compositor.
+- `make switch` (and so `update`/`upgrade`) also refreshes the GPU drivers in `/run/opengl-driver` when Mesa changed, asking for sudo only then (`make gpu` alone does just that).
+- nixpkgs follows kiwi-shell's pin (one nixpkgs for everything): kiwi's Hyprland plugin must match the compositor, and mixed nixpkgs break glibc.
 - voiper keeps its own `flake.lock` (vendor and pnpm hashes): update it in `custom/voiper` with `nix flake update` when you want it.
+- Language toolchains and dev tools (go, rust, node, kubectl, cloud CLIs, ...) are not installed globally: put them in the project's dev flake and use direnv.
 - If an update breaks a package, remove it from `modules/packages/*` (that's how penpot and frog left).
 
 ## Develop voiper / vibebender

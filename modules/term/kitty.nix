@@ -1,4 +1,34 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: let
+  kitty = config.programs.kitty.package;
+  hyprctl = "${config.wayland.windowManager.hyprland.finalPackage}/bin/hyprctl";
+  # Opens files in nvim as a new tab of the most recent kitty (and focuses it),
+  # or in a new kitty when none is running. Used for text files in Nautilus.
+  nvimTab = pkgs.writeShellScriptBin "nvim-tab" ''
+    cwd=$(dirname -- "''${1:-$HOME/.}")
+    for sock in $(ls -t "$XDG_RUNTIME_DIR"/kitty-* 2>/dev/null); do
+      if ${kitty}/bin/kitten @ --to "unix:$sock" launch --type=tab --cwd="$cwd" ${pkgs.neovim}/bin/nvim "$@" >/dev/null 2>&1; then
+        ${hyprctl} dispatch focuswindow "pid:''${sock##*-}" >/dev/null 2>&1
+        exit 0
+      fi
+    done
+    exec ${kitty}/bin/kitty --directory "$cwd" ${pkgs.neovim}/bin/nvim "$@"
+  '';
+in {
+  home.packages = [nvimTab];
+
+  xdg.desktopEntries.nvim-tab = {
+    name = "Neovim (kitty tab)";
+    exec = "nvim-tab %F";
+    icon = "nvim";
+    terminal = false;
+    noDisplay = true; # only for "Open with", not the app launcher
+    mimeType = ["text/plain"];
+  };
+
   programs.kitty = {
     enable = true;
 
@@ -17,6 +47,9 @@
     '';
 
     settings = {
+      # control socket for nvim-tab, one per kitty, only reachable by this user
+      allow_remote_control = "socket-only";
+      listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty-{kitty_pid}";
       shell = "${config.programs.fish.package}/bin/fish";
       confirm_os_window_close = 0;
       background_opacity = "0.66";

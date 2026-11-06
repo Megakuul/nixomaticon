@@ -1,15 +1,22 @@
 {lib, ...}:
 with lib; let
+  craft = app: ["ai.storyteller.${app}.desktop"]; # ArtCraft rpms, see artcraft.sh
+
   defaultApps = {
     browser = ["brave.desktop"];
-    text = ["codium.desktop"];
-    image = ["brave.desktop"];
+    text = ["nvim-tab.desktop"]; # nvim in a new kitty tab, see term/kitty.nix
+    vscodium = ["codium.desktop"];
+    image = ["org.gnome.Loupe.desktop"];
+    photoshop = craft "photocraft";
+    raw = craft "lightcraft";
+    vector = craft "vectorcraft";
     video = ["vlc.desktop"];
-    figma = ["figma-linux.desktop"];
     audio = ["vlc.desktop"];
-    directory = ["nautilus.desktop"];
-    office = ["libreoffice.desktop"];
-    pdf = ["org.gnome.Evince.desktop"];
+    directory = ["org.gnome.Nautilus.desktop"];
+    document = craft "wordcraft";
+    spreadsheet = craft "gridcraft";
+    presentation = craft "deckcraft";
+    pdf = craft "pdfcraft";
     terminal = ["kitty.desktop"];
     archive = [
       "peazip-extract.desktop"
@@ -22,19 +29,38 @@ with lib; let
       "application/json"
       "application/toml"
       "application/x-yaml"
+      "application/xml"
+      "application/x-shellscript"
+      "application/javascript"
+      "application/x-desktop"
+      "application/x-nix"
       "text/csv"
+      "text/css"
+      "text/javascript"
       "text/json"
       "text/markdown"
       "text/plain"
       "text/toml"
       "text/x-c"
       "text/x-c++"
+      "text/x-chdr"
+      "text/x-csrc"
+      "text/x-c++src"
+      "text/x-go"
       "text/x-java"
+      "text/x-log"
+      "text/x-lua"
+      "text/x-makefile"
       "text/x-markdown"
+      "text/x-nix"
       "text/x-python"
       "text/x-rust"
       "text/x-shellscript"
+      "text/x-typescript"
+      "text/xml"
       "text/yaml"
+    ];
+    vscodium = [
       "x-scheme-handler/vscodium"
     ];
     image = [
@@ -44,11 +70,31 @@ with lib; let
       "image/heic"
       "image/jpeg"
       "image/jpg"
+      "image/jxl"
       "image/png"
       "image/svg+xml"
       "image/tiff"
       "image/vnd.microsoft.icon"
       "image/webp"
+    ];
+    photoshop = [
+      "image/vnd.adobe.photoshop"
+      "image/x-xcf"
+    ];
+    raw = [
+      "image/x-adobe-dng"
+      "image/x-canon-cr2"
+      "image/x-canon-cr3"
+      "image/x-fuji-raf"
+      "image/x-nikon-nef"
+      "image/x-olympus-orf"
+      "image/x-panasonic-rw2"
+      "image/x-sony-arw"
+    ];
+    vector = [
+      "application/illustrator"
+      "application/postscript"
+      "image/x-eps"
     ];
     audio = [
       "audio/aac"
@@ -60,6 +106,8 @@ with lib; let
       "audio/wav"
       "audio/webm"
       "audio/x-matroska"
+      "audio/x-m4a"
+      "audio/x-wav"
     ];
     video = [
       "video/mp2t"
@@ -82,17 +130,21 @@ with lib; let
       "x-scheme-handler/https"
       "x-scheme-handler/unknown"
     ];
-    office = [
+    document = [
       "application/msword"
       "application/rtf"
+      "application/vnd.oasis.opendocument.text"
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ];
+    spreadsheet = [
       "application/vnd.ms-excel"
+      "application/vnd.oasis.opendocument.spreadsheet"
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ];
+    presentation = [
       "application/vnd.ms-powerpoint"
       "application/vnd.oasis.opendocument.presentation"
-      "application/vnd.oasis.opendocument.spreadsheet"
-      "application/vnd.oasis.opendocument.text"
       "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ];
     pdf = [
       "application/pdf"
@@ -112,10 +164,9 @@ with lib; let
       "application/x-rar"
       "application/x-tar"
       "application/x-xz"
+      "application/x-zstd-compressed-tar"
       "application/zip"
-    ];
-    figma = [
-      "x-scheme-handler/figma"
+      "application/zstd"
     ];
   };
 

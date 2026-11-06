@@ -6,10 +6,27 @@
   lib,
   ...
 }: let
-  variant = "macchiato";
-  accent = "lavender";
-  kvantumThemePackage = pkgs.catppuccin-kvantum.override {
-    inherit variant accent;
+  # GTK, Qt (Kvantum) and KDE apps all use Dracula from the same package.
+  theme = pkgs.dracula-theme;
+  iconTheme = "WhiteSur";
+  # KDE apps (kdenlive, kleopatra, ...) take colors and icons from kdeglobals,
+  # not from qt6ct, so give them Dracula's KDE color scheme.
+  kdeglobals = pkgs.runCommand "kdeglobals" {} ''
+    cat ${theme}/share/color-schemes/Dracula.colors > $out
+    printf '\n[General]\nColorScheme=Dracula\nfont=Quicksand,12,-1,5,50,0,0,0,0,0\n\n[Icons]\nTheme=${iconTheme}\n\n[KDE]\nwidgetStyle=kvantum\n' >> $out
+  '';
+  qtct = {
+    Appearance = {
+      style = "kvantum";
+      custom_palette = false; # palette comes from Kvantum
+      icon_theme = iconTheme;
+      # file pickers etc. through xdg-desktop-portal-gtk, like GTK apps
+      standard_dialogs = "xdgdesktopportal";
+    };
+    Fonts = {
+      general = ''"Quicksand,12"'';
+      fixed = ''"DejaVu Sans Mono,11"'';
+    };
   };
 in {
   fonts.fontconfig = {
@@ -26,15 +43,10 @@ in {
     nerd-fonts.caskaydia-cove
     nerd-fonts.symbols-only
     quicksand
-    catppuccin-kvantum
     twemoji-color-font
     noto-fonts-color-emoji
     fantasque-sans-mono
     maple-mono.truetype-autohint
-    libsForQt5.qt5ct
-    libsForQt5.qtstyleplugin-kvantum
-    qt6Packages.qtstyleplugin-kvantum
-    qt6Packages.qt6ct
     nerd-fonts.iosevka
     iosevka
   ];
@@ -54,9 +66,10 @@ in {
     };
     theme = {
       name = "Dracula";
+      package = theme;
     };
     iconTheme = {
-      name = "WhiteSur";
+      name = iconTheme;
       package =
         # this was not my idea please call an ambulance or @selimbucher to get rid of the pain
         (
@@ -90,20 +103,23 @@ in {
     };
   };
 
+  # Qt5 and Qt6 apps: qt5ct/qt6ct as platform theme, Kvantum as style.
+  # Dracula-Solid is Dracula without Kvantum's translucency and blur, which
+  # only work under KWin; on Hyprland they leave menus and popups see-through.
   qt = {
     enable = true;
     platformTheme.name = "qtct";
     style.name = "kvantum";
+    kvantum = {
+      enable = true;
+      themes = [theme];
+      settings.General.theme = "Dracula-Solid";
+    };
+    qt5ctSettings = qtct;
+    qt6ctSettings = qtct;
   };
 
-  xdg.configFile = {
-    "Kvantum/kvantum.kvconfig".text = ''
-      [General]
-      theme=catppuccin-${variant}-${accent}
-    '';
-
-    "Kvantum/catppuccin-${variant}-${accent}".source = "${kvantumThemePackage}/share/Kvantum/catppuccin-${variant}-${accent}";
-  };
+  xdg.configFile."kdeglobals".source = kdeglobals;
 
   home.pointerCursor = {
     enable = true;

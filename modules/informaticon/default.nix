@@ -8,10 +8,6 @@
 }: let
   system = pkgs.stdenv.hostPlatform.system;
 in {
-  imports = [
-    ./twinkle.nix
-  ];
-
   config = lib.mkIf config.beast.nixomaticon {
     home.packages = [
       # developed in-house under ./custom
