@@ -78,9 +78,10 @@ in {
           "wl-paste --watch cliphist store &"
           "hyprctl setcursor Bibata-Modern-Ice 24 &"
           "kiwi &"
-
-          "${terminal} --gtk-single-instance=true --quit-after-last-window-closed=false --initial-window=false"
         ]
+        # preloaded in the background so new ghostty windows open instantly
+        ++ lib.optional (terminal == "ghostty")
+        "ghostty --gtk-single-instance=true --quit-after-last-window-closed=false --initial-window=false"
         ++ config.beast.profile.startup;
 
       input = {

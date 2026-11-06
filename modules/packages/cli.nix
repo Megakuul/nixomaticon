@@ -31,7 +31,6 @@
     lsof
     psmisc
     man-pages # extra man pages
-    tree-sitter
     nmap
     mplayer
 

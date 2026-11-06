@@ -8,6 +8,7 @@
   beast = {
     nixomaticon = true;
     flakePath = "/home/linus/Documents/repos/nixomaticon";
+    profile.apps.terminal = "kitty"; # SUPER+Q
     profile.git = {
       username = "Linus Moser";
       email = "linus.moser@informaticon.com";

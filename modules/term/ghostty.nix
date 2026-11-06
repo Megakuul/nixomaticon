@@ -54,6 +54,23 @@
     keybind = ctrl+shift+left=unbind
     keybind = ctrl+shift+right=unbind
     keybind = shift+enter=text:\n
+
+    # same as kitty: ctrl+hjkl are arrow keys (vim-style completion and
+    # cursor movement), ctrl+shift+h/l jump words, alt+1..8 switch tabs
+    keybind = ctrl+h=text:\x1b[D
+    keybind = ctrl+j=text:\x1b[B
+    keybind = ctrl+k=text:\x1b[A
+    keybind = ctrl+l=text:\x1b[C
+    keybind = ctrl+shift+h=text:\x1b[1;5D
+    keybind = ctrl+shift+l=text:\x1b[1;5C
+    keybind = alt+1=goto_tab:1
+    keybind = alt+2=goto_tab:2
+    keybind = alt+3=goto_tab:3
+    keybind = alt+4=goto_tab:4
+    keybind = alt+5=goto_tab:5
+    keybind = alt+6=goto_tab:6
+    keybind = alt+7=goto_tab:7
+    keybind = alt+8=goto_tab:8
   '';
   xdg.configFile."ghostty/themes/gruvbox".text = ''
     background = #1d2021
