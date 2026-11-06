@@ -22,14 +22,14 @@
       color.ui = true;
       core.excludesFile = "${config.beast.profile.git.configPath}/.gitignore";
       credential.helper = "!${pkgs.gh}/bin/gh auth git-credential";
-      # Push over SSH, but fetch/clone https URLs as https: tools that clone
-      # public repos (lazy.nvim, nix, cargo, ...) then work without SSH keys.
+      # All GitHub/Codeberg traffic over SSH, including clones of https URLs
+      # (lazy.nvim etc.). Needs the keys from the README added to both sites.
       url = {
         "git@github.com:" = {
-          pushInsteadOf = "https://github.com/";
+          insteadOf = "https://github.com/";
         };
         "git@codeberg.org:" = {
-          pushInsteadOf = "https://codeberg.org/";
+          insteadOf = "https://codeberg.org/";
         };
       };
     };

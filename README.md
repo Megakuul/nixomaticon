@@ -47,6 +47,8 @@ Generate the keys git and ssh expect, in `~/.config/git`:
 cd ~/.config/git && ssh-keygen -f signingkey && ssh-keygen -f github && ssh-keygen -f codeberg
 ```
 
+Add `github.pub` and `codeberg.pub` to your GitHub/Codeberg accounts (and `signingkey.pub` as a signing key). **This is required:** git sends all GitHub/Codeberg traffic over SSH, even clones of `https://` URLs, so without the keys neovim can't install its plugins and no clone or pull works.
+
 ## Upgrade everything
 
 ```sh

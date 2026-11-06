@@ -10,8 +10,8 @@
     flakePath = "/home/linus/Documents/repos/nixomaticon";
     profile.apps.terminal = "kitty"; # SUPER+Q
     profile.git = {
-      username = "Linus Moser";
-      email = "linus.moser@informaticon.com";
+      username = "megakuul";
+      email = "linus.moser@megakuul.ch";
     };
     # teleport.proxy = "teleport.example.com:443";
   };
