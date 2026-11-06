@@ -37,7 +37,7 @@ After the reboot: LUKS passphrase → GDM login (pick **Hyprland (nix)** at the 
 `bootstrap.sh` does all of this:
 - installs swaylock, docker, libvirt, swtpm and waydroid with dnf, and adds you to `docker,libvirt,input`
 - runs the first `home-manager switch`, then `non-nixos-gpu-setup` (GPU drivers for nix programs)
-- sets fish as your login shell
+- keeps bash as login shell (terminals start fish), so TTY login never depends on nix
 - adds the `Hyprland (nix)` session to GDM
 
 ## 3. Git keys

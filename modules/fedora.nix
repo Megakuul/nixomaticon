@@ -6,8 +6,16 @@
   pkgs,
   ...
 }: let
+  # Logs to ~/.local/state/hyprland-session.log (the previous run is kept as
+  # .log.old), since Hyprland's own log in $XDG_RUNTIME_DIR is gone after logout.
   session = pkgs.writeShellScriptBin "hyprland-session" ''
+    log="''${XDG_STATE_HOME:-$HOME/.local/state}/hyprland-session.log"
+    mkdir -p "$(dirname "$log")"
+    [ -f "$log" ] && mv -f "$log" "$log.old"
+    exec >"$log" 2>&1
+    echo "== $(date) hyprland-session"
     . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
+    ls -l /run/opengl-driver 2>&1
     exec ${config.wayland.windowManager.hyprland.finalPackage}/bin/start-hyprland "$@"
   '';
 in {

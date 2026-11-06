@@ -1,4 +1,4 @@
-{...}: {
+{config, ...}: {
   programs.kitty = {
     enable = true;
 
@@ -17,6 +17,7 @@
     '';
 
     settings = {
+      shell = "${config.programs.fish.package}/bin/fish";
       confirm_os_window_close = 0;
       background_opacity = "0.66";
       scrollback_lines = 10000;

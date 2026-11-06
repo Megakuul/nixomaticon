@@ -17,9 +17,10 @@ nix run .#home-manager -- switch --flake ".#$user" -b backup
 # --- GPU drivers for nix programs (Hyprland etc.) -------------------------------
 sudo "$(readlink -f "$profile/bin/non-nixos-gpu-setup")"
 
-# --- fish as login shell -------------------------------------------------------
-grep -qx "$profile/bin/fish" /etc/shells || echo "$profile/bin/fish" | sudo tee -a /etc/shells >/dev/null
-sudo usermod -s "$profile/bin/fish" "$user"
+# --- login shell stays Fedora's bash; terminals start fish themselves ----------
+# (a /nix shell as login shell breaks TTY login when nix is unavailable)
+sudo usermod -s /bin/bash "$user"
+sudo sed -i "\|^$profile/bin/fish\$|d" /etc/shells
 
 # --- Hyprland session for GDM ----------------------------------------------------
 sudo tee /usr/share/wayland-sessions/hyprland-nix.desktop >/dev/null <<EOF

@@ -1,7 +1,14 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [ghostty];
 
   xdg.configFile."ghostty/config".text = ''
+    # Login shell stays Fedora's bash (TTY/GDM must not depend on /nix)
+    command = ${config.programs.fish.package}/bin/fish
+
     # Font
     font-family = "Maple Mono"
     font-size = 16
