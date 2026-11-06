@@ -1,8 +1,9 @@
 .PHONY: switch gpu upgrade update check dev-voiper dev-vibebender test
 
 # Apply the config (packages, dotfiles, desktop, custom/* builds).
+# --no-nom: nix-output-monitor can't parse Determinate Nix's newer log format.
 switch:
-	nh home switch $(CURDIR)
+	nh home switch --no-nom $(CURDIR)
 	@$(MAKE) --no-print-directory gpu
 
 # Point /run/opengl-driver at this config's Mesa (needs sudo, only when it changed).

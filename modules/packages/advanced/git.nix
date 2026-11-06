@@ -22,12 +22,14 @@
       color.ui = true;
       core.excludesFile = "${config.beast.profile.git.configPath}/.gitignore";
       credential.helper = "!${pkgs.gh}/bin/gh auth git-credential";
+      # Push over SSH, but fetch/clone https URLs as https: tools that clone
+      # public repos (lazy.nvim, nix, cargo, ...) then work without SSH keys.
       url = {
         "git@github.com:" = {
-          insteadOf = "https://github.com/";
+          pushInsteadOf = "https://github.com/";
         };
         "git@codeberg.org:" = {
-          insteadOf = "https://codeberg.org/";
+          pushInsteadOf = "https://codeberg.org/";
         };
       };
     };
