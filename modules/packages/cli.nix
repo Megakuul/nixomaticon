@@ -5,6 +5,7 @@
 }: {
   home.packages = with pkgs; [
     # generally useful
+    gnumake # this repo's Makefile (Fedora doesn't ship make)
     vim
     ncdu
     tldr

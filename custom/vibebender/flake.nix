@@ -64,6 +64,7 @@
       default = pkgs.mkShell {
         inputsFrom = [self.packages.${pkgs.stdenv.hostPlatform.system}.vibebender];
         packages = with pkgs; [
+          gnumake
           go
           gotools
           go-tools

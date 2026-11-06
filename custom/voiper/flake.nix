@@ -44,6 +44,7 @@
     formatter.${system} = pkgs.nixfmt;
     devShells.${system}.default = pkgs.mkShell {
       packages = with pkgs; [
+        gnumake
         go
         nodejs
         pnpm
