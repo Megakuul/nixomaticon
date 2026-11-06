@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vibebender</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-state="idle">
+    <div class="aurora" aria-hidden="true"></div>
+
+    <main class="card">
+      <header class="hero">
+        <div class="orb" aria-hidden="true">
+          <span class="ring"></span>
+          <span class="ring r2"></span>
+          <span class="core"></span>
+        </div>
+        <h1>Vibebender</h1>
+        <p id="status" class="status" role="status">Disconnected</p>
+        <p id="error" class="error" hidden></p>
+      </header>
+
+      <section id="info" class="info" hidden>
+        <div><span>Uptime</span><strong id="uptime">00:00:00</strong></div>
+        <div><span>Interface</span><strong id="device">–</strong></div>
+        <div><span>Gateway</span><strong id="gateway">–</strong></div>
+        <div><span>Routes</span><strong id="routes">0</strong></div>
+      </section>
+
+      <form id="form" autocomplete="off">
+        <fieldset id="fields">
+          <div class="row">
+            <label class="grow">Server<input name="server" required placeholder="vpn.example.com" /></label>
+            <label class="port">Port<input name="port" type="number" min="1" max="65535" value="443" /></label>
+          </div>
+          <label>Username<input name="username" required /></label>
+          <label>Domain<input name="domain" placeholder="LocalDomain" /></label>
+          <label>Password<input name="password" type="password" required /></label>
+          <label class="toggle">
+            <input name="autoReconnect" type="checkbox" checked />
+            <span>Auto-reconnect when the tunnel drops</span>
+          </label>
+
+          <details>
+            <summary>Advanced</summary>
+            <label>TLS fingerprint (SHA-1)<input name="fingerprint" placeholder="aa:bb:cc:…" spellcheck="false" /></label>
+            <label>DNS backend
+              <select name="dnsBackend">
+                <option value="auto">auto</option>
+                <option value="systemd-resolved">systemd-resolved</option>
+                <option value="resolvconf">resolvconf</option>
+                <option value="networkmanager">networkmanager</option>
+                <option value="none">none</option>
+              </select>
+            </label>
+          </details>
+        </fieldset>
+
+        <button id="action" type="submit" class="action">Connect</button>
+      </form>
+
+      <details id="logbox" class="log">
+        <summary>
+          Log <span id="logcount" class="badge">0</span>
+          <label class="verbose"><input id="verbose" type="checkbox" /> verbose</label>
+        </summary>
+        <ol id="log"></ol>
+      </details>
+    </main>
+
+    <dialog id="prompt">
+      <form method="dialog" id="promptform">
+        <h2>Verification required</h2>
+        <p id="promptmsg"></p>
+        <input id="promptvalue" autocomplete="one-time-code" inputmode="numeric" />
+        <menu>
+          <button value="cancel" type="button" id="promptcancel" class="ghost">Cancel</button>
+          <button value="ok" class="action">Verify</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>

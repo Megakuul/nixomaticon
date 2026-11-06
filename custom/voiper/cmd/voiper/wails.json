@@ -1,0 +1,16 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "voiper",
+  "outputfilename": "voiper",
+  "assetdir": "../../web/dist",
+  "build:dir": "../../build/package",
+  "frontend:dir": "../../web",
+  "frontend:install": "pnpm install --frozen-lockfile",
+  "frontend:build": "pnpm run build",
+  "frontend:dev:watcher": "pnpm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Megakuul",
+    "email": "linus.moser@megakuul.ch"
+  }
+}

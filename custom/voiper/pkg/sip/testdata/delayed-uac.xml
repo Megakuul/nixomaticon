@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+<scenario name="Delayed initial offer and bodyless re-INVITE">
+  <send retrans="500"><![CDATA[
+INVITE sip:bob@[remote_ip]:[remote_port] SIP/2.0
+Via: SIP/2.0/UDP [local_ip]:[local_port];branch=[branch]
+From: SIPp <sip:alice@[local_ip]:[local_port]>;tag=[call_number]
+To: <sip:bob@[remote_ip]:[remote_port]>
+Call-ID: [call_id]
+CSeq: 1 INVITE
+Contact: <sip:alice@[local_ip]:[local_port]>
+Max-Forwards: 70
+Require: 100rel
+Supported: timer
+Allow: INVITE, ACK, BYE, PRACK, UPDATE
+Session-Expires: 90;refresher=uac
+Content-Length: 0
+
+]]></send>
+  <recv response="100" optional="true" />
+  <recv response="200"><action>
+    <ereg regexp="90;refresher=uac" search_in="hdr" header="Session-Expires:" check_it="true" assign_to="3" />
+  </action></recv>
+  <send><![CDATA[
+ACK sip:bob@[remote_ip]:[remote_port] SIP/2.0
+Via: SIP/2.0/UDP [local_ip]:[local_port];branch=[branch]
+From: SIPp <sip:alice@[local_ip]:[local_port]>;tag=[call_number]
+To: <sip:bob@[remote_ip]:[remote_port]>[peer_tag_param]
+Call-ID: [call_id]
+CSeq: 1 ACK
+Max-Forwards: 70
+Content-Type: application/sdp
+Content-Length: [len]
+
+v=0
+o=- 1 1 IN IP4 [local_ip]
+s=SIPp
+c=IN IP4 [local_ip]
+t=0 0
+m=audio 8000 RTP/AVP 0
+a=sendrecv
+]]></send>
+  <pause milliseconds="50" />
+  <send retrans="500"><![CDATA[
+INVITE sip:bob@[remote_ip]:[remote_port] SIP/2.0
+Via: SIP/2.0/UDP [local_ip]:[local_port];branch=[branch]
+From: SIPp <sip:alice@[local_ip]:[local_port]>;tag=[call_number]
+To: <sip:bob@[remote_ip]:[remote_port]>[peer_tag_param]
+Call-ID: [call_id]
+CSeq: 2 INVITE
+Contact: <sip:alice@[local_ip]:[local_port]>
+Max-Forwards: 70
+Supported: timer
+Session-Expires: 90;refresher=uac
+Content-Length: 0
+
+]]></send>
+  <recv response="200"><action>
+    <ereg regexp="application/sdp" search_in="hdr" header="Content-Type:" check_it="true" assign_to="5" />
+  </action></recv>
+  <send><![CDATA[
+ACK sip:bob@[remote_ip]:[remote_port] SIP/2.0
+Via: SIP/2.0/UDP [local_ip]:[local_port];branch=[branch]
+From: SIPp <sip:alice@[local_ip]:[local_port]>;tag=[call_number]
+To: <sip:bob@[remote_ip]:[remote_port]>[peer_tag_param]
+Call-ID: [call_id]
+CSeq: 2 ACK
+Max-Forwards: 70
+Content-Type: application/sdp
+Content-Length: [len]
+
+v=0
+o=- 1 2 IN IP4 [local_ip]
+s=SIPp
+c=IN IP4 [local_ip]
+t=0 0
+m=audio 8000 RTP/AVP 0
+a=sendrecv
+]]></send>
+  <pause milliseconds="50" />
+  <send retrans="500"><![CDATA[
+UPDATE sip:bob@[remote_ip]:[remote_port] SIP/2.0
+Via: SIP/2.0/UDP [local_ip]:[local_port];branch=[branch]
+From: SIPp <sip:alice@[local_ip]:[local_port]>;tag=[call_number]
+To: <sip:bob@[remote_ip]:[remote_port]>[peer_tag_param]
+Call-ID: [call_id]
+CSeq: 3 UPDATE
+Supported: timer
+Session-Expires: 90;refresher=uac
+Max-Forwards: 70
+Content-Length: 0
+
+]]></send>
+  <recv response="200"><action>
+    <ereg regexp="90;refresher=uac" search_in="hdr" header="Session-Expires:" check_it="true" assign_to="4" />
+  </action></recv>
+  <send retrans="500"><![CDATA[
+BYE sip:bob@[remote_ip]:[remote_port] SIP/2.0
+Via: SIP/2.0/UDP [local_ip]:[local_port];branch=[branch]
+From: SIPp <sip:alice@[local_ip]:[local_port]>;tag=[call_number]
+To: <sip:bob@[remote_ip]:[remote_port]>[peer_tag_param]
+Call-ID: [call_id]
+CSeq: 4 BYE
+Max-Forwards: 70
+Content-Length: 0
+
+]]></send>
+  <recv response="200" />
+  <Reference variables="3,4,5" />
+</scenario>

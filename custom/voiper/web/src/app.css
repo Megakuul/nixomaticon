@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-border: var(--brand-border);
+  --color-accent-text: var(--accent-text);
+  --color-accent-surface: var(--accent-surface);
+  --color-accent-hover: var(--accent-hover);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-inset: var(--surface-inset);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-foreground: var(--foreground);
+  --color-subtle: var(--subtle);
+  --color-label: var(--label);
+  --color-danger: var(--danger);
+  --color-panel-edge: var(--panel-edge);
+  --color-field: var(--field);
+  --color-field-border: var(--field-border);
+  --color-control: var(--control);
+  --color-control-hover: var(--control-hover);
+  --color-control-border: var(--control-border);
+  --color-control-border-hover: var(--control-border-hover);
+  --shadow-panel: var(--shadow-panel-value);
+  --shadow-control: var(--shadow-control-value);
+}
+
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--foreground);
+  background: var(--canvas);
+  font-synthesis: none;
+  color-scheme: dark;
+  --muted: #aab7c3;
+  --border: #414f5d;
+  --accent: #b29bc4;
+  --brand: #3a105f;
+  --brand-hover: #471672;
+  --brand-border: #61318b;
+  --accent-text: #e5dced;
+  --accent-surface: #292332;
+  --accent-hover: #362b43;
+  --canvas: #1b2229;
+  --surface: #29323b;
+  --surface-inset: #202830;
+  --surface-secondary: #242d36;
+  --foreground: #eef0f3;
+  --subtle: #8e9aa6;
+  --label: #c8cdd5;
+  --danger: #f9a8b9;
+  --panel-edge: #526271;
+  --field: #1c252e;
+  --field-border: #4b5a68;
+  --control: #35424e;
+  --control-hover: #435362;
+  --control-border: #536271;
+  --control-border-hover: #727e8d;
+  --shadow-panel-value: 0 2px 5px #0004;
+  --shadow-control-value: 0 1px 2px #0005, inset 0 1px 0 #ffffff08;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+input[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 8 3 3 7-7'/%3E%3C/svg%3E");
+}
+
+input[type="checkbox"]:indeterminate {
+  background-image: linear-gradient(white, white);
+  background-size: 10px 2px;
+}
+
+input[type="radio"]:checked {
+  background-image: radial-gradient(circle, white 0 4px, transparent 4.5px);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 3px;
+  background: #4b5a68;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6.5px;
+  border: 2px solid var(--accent-text);
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 5px;
+  border-radius: 3px;
+  background: #4b5a68;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--accent-text);
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 12px 2px 2px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+details[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@keyframes panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

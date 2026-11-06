@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+<scenario name="Reliable provisional UAS">
+  <recv request="INVITE" />
+  <nop><action>
+    <assignstr assign_to="1" value="[last_Via:]" />
+    <assignstr assign_to="2" value="[last_From:]" />
+    <assignstr assign_to="3" value="[last_To:];tag=sipp" />
+    <assignstr assign_to="4" value="[last_Call-ID:]" />
+    <assignstr assign_to="5" value="[last_CSeq:]" />
+  </action></nop>
+  <send retrans="500"><![CDATA[
+SIP/2.0 183 Session Progress
+[$1]
+[$2]
+[$3]
+[$4]
+[$5]
+Contact: <sip:bob@[local_ip]:[local_port]>
+Require: 100rel
+RSeq: 1
+Content-Length: 0
+
+]]></send>
+  <recv request="PRACK"><action>
+    <ereg regexp="1 [0-9]+ INVITE" search_in="hdr" header="RAck:" check_it="true" assign_to="8" />
+  </action></recv>
+  <send><![CDATA[
+SIP/2.0 200 OK
+[last_Via:]
+[last_From:]
+[last_To:]
+[last_Call-ID:]
+[last_CSeq:]
+Content-Length: 0
+
+]]></send>
+  <send retrans="500"><![CDATA[
+SIP/2.0 200 OK
+[$1]
+[$2]
+[$3]
+[$4]
+[$5]
+Contact: <sip:bob@[local_ip]:[local_port]>
+Supported: timer
+Require: timer
+Allow: INVITE, ACK, BYE, PRACK, UPDATE
+Session-Expires: 90;refresher=uac
+Content-Type: application/sdp
+Content-Length: [len]
+
+v=0
+o=- 1 1 IN IP4 [local_ip]
+s=SIPp
+c=IN IP4 [local_ip]
+t=0 0
+m=audio 8000 RTP/AVP 0
+a=sendrecv
+]]></send>
+  <recv request="ACK"><action>
+    <ereg regexp="[0-9]+ ACK" search_in="hdr" header="CSeq:" check_it="true" assign_to="9" />
+  </action></recv>
+  <recv request="UPDATE" />
+  <send><![CDATA[
+SIP/2.0 200 OK
+[last_Via:]
+[last_From:]
+[last_To:]
+[last_Call-ID:]
+[last_CSeq:]
+Session-Expires: 90;refresher=uac
+Content-Length: 0
+
+]]></send>
+  <recv request="BYE" />
+  <send><![CDATA[
+SIP/2.0 200 OK
+[last_Via:]
+[last_From:]
+[last_To:]
+[last_Call-ID:]
+[last_CSeq:]
+Content-Length: 0
+
+]]></send>
+  <Reference variables="8,9" />
+</scenario>

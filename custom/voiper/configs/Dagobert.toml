@@ -1,0 +1,5 @@
+server = "10.1.10.252:5060"
+port = 0
+username = "dagobert.duck"
+password = "1234"
+display_name = "Dagobert Duck"

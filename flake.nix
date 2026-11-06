@@ -2,9 +2,6 @@
   description = "Nixomaticon - beastos home-manager setup for Fedora";
 
   inputs = {
-    # Lets custom/* be git submodules if this directory becomes a git repo.
-    self.submodules = true;
-
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
@@ -28,7 +25,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # In-house projects, developed in ./custom (own git history each).
+    # In-house projects, vendored into ./custom.
     voiper.url = "path:./custom/voiper";
     vibebender = {
       url = "path:./custom/vibebender";

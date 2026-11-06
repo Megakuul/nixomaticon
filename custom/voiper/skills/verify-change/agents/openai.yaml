@@ -1,0 +1,3 @@
+interface:
+  display_name: "Verify Change"
+  short_description: "Validate changes with focused checks and clear evidence"

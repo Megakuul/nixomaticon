@@ -1,0 +1,10 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "vibebender",
+  "outputfilename": "vibebender",
+  "frontend:dir": "frontend",
+  "frontend:install": "",
+  "frontend:build": "",
+  "assetdir": "frontend",
+  "reloaddirs": "frontend"
+}

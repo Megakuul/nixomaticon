@@ -6,7 +6,7 @@
 | --- | --- |
 | `profile.nix` | your username, git identity, teleport proxy |
 | `modules/` | beastos home modules, `fedora.nix` (non-NixOS glue), `informaticon/` (twinkle, voiper, vibebender) |
-| `custom/voiper`, `custom/vibebender` | full git clones, built straight from the working tree on every switch |
+| `custom/voiper`, `custom/vibebender` | vendored sources (plain files in this repo), built on every switch |
 | `bootstrap.sh` | one-time root setup |
 
 ## 1. Install Fedora (with LUKS)
@@ -27,7 +27,7 @@
 curl -fsSL https://install.determinate.systems/nix | sh -s -- install --no-confirm   # SELinux-aware
 exec bash -l                                                 # pick up nix
 mkdir -p ~/Documents/repos && cd ~/Documents/repos
-git clone --recurse-submodules <your nixomaticon remote> nixomaticon   # or copy the folder over
+git clone <your nixomaticon remote> nixomaticon   # or copy the folder over
 cd nixomaticon && ./bootstrap.sh
 sudo reboot
 ```
@@ -72,7 +72,3 @@ make test              # both test suites
 make check             # tests + vet + nix flake check for both
 ```
 Inside each project, `make` targets and `AGENTS.md` describe the details (e.g. `make dev` = vibebender against the real SonicWall).
-
-To put this repo in git, keep the projects as submodules:
-`git init && git submodule add git@github.com:megakuul/voiper custom/voiper && git submodule add <your vibebender fork> custom/vibebender && git add -A`
-The flake sets `self.submodules = true` so their files are included.

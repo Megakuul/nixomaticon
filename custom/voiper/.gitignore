@@ -1,0 +1,17 @@
+build/bin/
+build/package/bin/
+node_modules/
+web/dist/
+web/package.json.md5
+.pnpm-store/
+result
+result-*
+.vscode/
+.direnv/**
+
+*.pcapng
+
+# Editor backups
+*~
+\#*\#
+.\#*
