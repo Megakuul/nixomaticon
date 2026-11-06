@@ -7,6 +7,10 @@
     # `nix flake update` moves it whenever kiwi-shell updates its lock.
     nixpkgs.follows = "selimbar/nixpkgs";
 
+    # Latest unstable, only for packages the main pin doesn't have yet
+    # (ArtCraft apps). Their prebuilt binaries come from cache.nixos.org.
+    nixpkgs-latest.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

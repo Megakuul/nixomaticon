@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
   # Nautilus on Fedora only loads extensions from its own dir; point it at the
@@ -13,7 +14,19 @@
     source = "${pkgs.nautilus}/share/dbus-1/services/${f}";
   });
 
-  home.packages = with pkgs; [
+  # ArtCraft (Adobe-style + office), only in the latest nixpkgs so far.
+  # FilmCraft, EffectCraft and DesignCraft aren't packaged there yet.
+  home.packages =
+    (with inputs.nixpkgs-latest.legacyPackages.${pkgs.stdenv.hostPlatform.system}; [
+      photocraft # Photoshop
+      vectorcraft # Illustrator
+      lightcraft # Lightroom
+      pdfcraft # Acrobat
+      wordcraft # Word
+      gridcraft # Excel
+      deckcraft # PowerPoint
+    ])
+    ++ (with pkgs; [
     putty
     # multimedia
     gimp3-with-plugins
@@ -42,7 +55,6 @@
     }))
     zenity
 
-    # office: ArtCraft suite comes from dnf (bootstrap.sh / artcraft.sh)
     gnome-calculator
 
     # password
@@ -66,5 +78,5 @@
 
     # remotemanagement tooling
     remmina
-  ];
+  ]);
 }

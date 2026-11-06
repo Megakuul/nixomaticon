@@ -1,6 +1,6 @@
 {lib, ...}:
 with lib; let
-  craft = app: ["ai.storyteller.${app}.desktop"]; # ArtCraft rpms, see artcraft.sh
+  craft = app: ["ai.storyteller.${app}.desktop"]; # ArtCraft, see packages/gui.nix
 
   defaultApps = {
     browser = ["brave.desktop"];

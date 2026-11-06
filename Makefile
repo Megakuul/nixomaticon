@@ -12,11 +12,10 @@ gpu:
 	if [ "$$(readlink /run/opengl-driver)" = "$$want" ]; then echo "GPU drivers up to date"; \
 	else echo "Updating GPU drivers (sudo)"; sudo $$setup; fi
 
-# Everything: Fedora packages, flatpaks, ArtCraft apps, firmware, Nix itself, all flake inputs.
+# Everything: Fedora packages, flatpaks, firmware, Nix itself, all flake inputs.
 upgrade:
 	sudo dnf upgrade --refresh -y
 	flatpak update -y
-	./artcraft.sh
 	-fwupdmgr refresh --force && fwupdmgr update -y
 	sudo determinate-nixd upgrade
 	$(MAKE) update

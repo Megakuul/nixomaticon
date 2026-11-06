@@ -11,9 +11,6 @@ sudo dnf install -y swaylock moby-engine libvirt-daemon-kvm libvirt-daemon-confi
 sudo systemctl enable --now docker libvirtd
 sudo usermod -aG docker,libvirt,input "$user"
 
-# --- ArtCraft (Adobe-style + office apps) as rpms ------------------------------
-./artcraft.sh
-
 # --- first home-manager switch -------------------------------------------------
 nix run .#home-manager -- switch --flake ".#$user" -b backup
 

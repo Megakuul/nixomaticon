@@ -36,7 +36,6 @@ After the reboot: LUKS passphrase → GDM login (pick **Hyprland (nix)** at the 
 
 `bootstrap.sh` does all of this:
 - installs swaylock, docker, libvirt, swtpm and waydroid with dnf, and adds you to `docker,libvirt,input`
-- installs the [ArtCraft](https://github.com/storytold) apps as rpms via `artcraft.sh`: PhotoCraft, VectorCraft, FilmCraft, LightCraft, EffectCraft, DesignCraft, PdfCraft (the Adobe set), WordCraft, GridCraft, DeckCraft (office) and the ArtCraft Launcher
 - runs the first `home-manager switch`, then `non-nixos-gpu-setup` (GPU drivers for nix programs)
 - keeps bash as login shell (terminals start fish), so TTY login never depends on nix
 - adds the `Hyprland (nix)` session to GDM
@@ -51,7 +50,7 @@ cd ~/.config/git && ssh-keygen -f signingkey && ssh-keygen -f github && ssh-keyg
 ## Upgrade everything
 
 ```sh
-make upgrade    # dnf, flatpaks, ArtCraft apps, firmware, Nix itself, fresh pins for all inputs, switch
+make upgrade    # dnf, flatpaks, firmware, Nix itself, fresh pins for all inputs, switch
 make update     # only nix side: nix flake update + switch (nvd shows the diff)
 make switch     # apply local changes (also rebuilds custom/* from your working tree)
 ```
