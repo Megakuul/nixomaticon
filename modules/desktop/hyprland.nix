@@ -1,12 +1,9 @@
 {
   pkgs,
   config,
-  inputs,
+  lib,
   ...
 }: let
-  # kiwi ships a Hyprland plugin that must match the compositor exactly, so
-  # Hyprland comes from the nixpkgs kiwi-shell itself is tested with.
-  hyprPkgs = inputs.selimbar.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   browser = config.beast.profile.apps.browser;
   terminal = config.beast.profile.apps.terminal;
   file = config.beast.profile.apps.explorer;
@@ -36,10 +33,16 @@ in {
     "xdg-desktop-autostart.target"
   ];
 
+  # nwg-displays owns monitors.conf; Hyprland refuses to `source` a missing file.
+  home.activation.hyprMonitors = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run mkdir -p "${config.xdg.configHome}/hypr"
+    [ -e "${config.xdg.configHome}/hypr/monitors.conf" ] || run touch "${config.xdg.configHome}/hypr/monitors.conf"
+  '';
+
   wayland.windowManager.hyprland = {
     enable = true;
-    package = hyprPkgs.hyprland;
-    portalPackage = hyprPkgs.xdg-desktop-portal-hyprland;
+    package = pkgs.hyprland;
+    portalPackage = pkgs.xdg-desktop-portal-hyprland;
     configType = "hyprlang";
 
     xwayland = {

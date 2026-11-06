@@ -128,22 +128,6 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1793726008,
-        "narHash": "sha256-jQp1wKvbwWdLBASTXkSi/VYmDJ5AbBi1WvcMt9HWJC8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "1d060086d60cb76a40cf37109f979d88a5bd6396",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
         "lastModified": 1790323409,
         "narHash": "sha256-VVTPf+Hyd5ebpjBMHmrLMSBIeW6ls48Bqtosj7CNKLA=",
         "owner": "NixOS",
@@ -158,7 +142,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_2": {
       "locked": {
         "lastModified": 1791260994,
         "narHash": "sha256-Miqqk/ammqnTUxaoCyvtwoPeLbI1ksFyLxi/CazZpWY=",
@@ -178,7 +162,10 @@
       "inputs": {
         "home-manager": "home-manager",
         "native-instruments": "native-instruments",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "selimbar",
+          "nixpkgs"
+        ],
         "selimbar": "selimbar",
         "slimmer-icons": "slimmer-icons",
         "vibebender": "vibebender",
@@ -191,7 +178,7 @@
         "ags": "ags",
         "astal-latest": "astal-latest",
         "kiwi-settings": "kiwi-settings",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs"
       },
       "locked": {
         "lastModified": 1793971473,
@@ -241,7 +228,7 @@
     },
     "voiper": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "path": "./custom/voiper",

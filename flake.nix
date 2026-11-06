@@ -2,7 +2,10 @@
   description = "Nixomaticon - beastos home-manager setup for Fedora";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # One nixpkgs for everything: kiwi-shell's pin. kiwi's Hyprland plugin must
+    # match the compositor, and mixing two nixpkgs breaks glibc (Mesa, GLib).
+    # `nix flake update` moves it whenever kiwi-shell updates its lock.
+    nixpkgs.follows = "selimbar/nixpkgs";
 
     home-manager = {
       url = "github:nix-community/home-manager";

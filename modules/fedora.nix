@@ -4,7 +4,6 @@
 {
   config,
   pkgs,
-  inputs,
   ...
 }: let
   # Logs to ~/.local/state/hyprland-session.log (the previous run is kept as
@@ -21,10 +20,6 @@
   '';
 in {
   targets.genericLinux.enable = true; # XDG_DATA_DIRS, fonts, GPU drivers (non-nixos-gpu-setup)
-  # GPU drivers (/run/opengl-driver) from the same nixpkgs as Hyprland (kiwi's,
-  # see desktop/hyprland.nix). Programs can load drivers built against an older
-  # glibc but not a newer one, and kiwi's nixpkgs is never newer than ours.
-  targets.genericLinux.gpu.packages = inputs.selimbar.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
