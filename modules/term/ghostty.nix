@@ -54,6 +54,10 @@
     keybind = ctrl+shift+left=unbind
     keybind = ctrl+shift+right=unbind
     keybind = shift+enter=text:\n
+    # font zoom (ctrl+plus/equal need Shift anyway on the CH layout)
+    keybind = ctrl+shift+up=increase_font_size:2
+    keybind = ctrl+shift+down=decrease_font_size:2
+    keybind = ctrl+shift+backspace=reset_font_size
 
     # same as kitty: ctrl+hjkl are arrow keys (vim-style completion and
     # cursor movement), ctrl+shift+h/l jump words, alt+1..8 switch tabs

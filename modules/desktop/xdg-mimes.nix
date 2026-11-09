@@ -3,7 +3,7 @@ with lib; let
   craft = app: ["ai.storyteller.${app}.desktop"]; # ArtCraft, see packages/gui.nix
 
   defaultApps = {
-    browser = ["brave.desktop"];
+    browser = ["brave-browser.desktop"];
     text = ["nvim-tab.desktop"]; # nvim in a new kitty tab, see term/kitty.nix
     vscodium = ["codium.desktop"];
     image = ["org.gnome.Loupe.desktop"];

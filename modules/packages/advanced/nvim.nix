@@ -14,9 +14,8 @@
 
     # language servers (lspconfig.lua)
     lua-language-server # lua_ls
-    vscode-langservers-extracted # html, cssls
-    typescript-language-server # ts_ls
-    typescript
+    vscode-langservers-extracted # html, cssls, eslint
+    typescript # tsc (7.x, native `tsc --lsp`)
     svelte-language-server # svelte
     tailwindcss-language-server # tailwindcss
     templ # templ (lsp + formatter)

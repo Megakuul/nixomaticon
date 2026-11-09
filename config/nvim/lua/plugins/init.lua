@@ -25,10 +25,27 @@ return {
     end,
   },
 
+  -- The main branch neither installs parsers from opts nor enables highlighting
+  -- by itself: install them explicitly and start treesitter per buffer.
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     lazy = false,
     build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter").install {
+        "lua", "luadoc", "printf", "vim", "vimdoc", "query", "regex",
+        "markdown", "markdown_inline", "json", "yaml", "toml", "nix", "bash",
+        "go", "gomod", "gosum", "gowork", "templ",
+        "javascript", "typescript", "tsx", "html", "css", "svelte",
+        "c", "cpp", "rust", "python", "ocaml", "proto", "sql",
+      }
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(args)
+          pcall(vim.treesitter.start, args.buf)
+        end,
+      })
+    end,
   },
 
   {

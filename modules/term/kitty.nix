@@ -44,6 +44,14 @@ in {
       font_features MapleMono-Bold +ss01 +ss02 +ss04
       font_features MapleMono-Italic +ss01 +ss02 +ss04
       font_features MapleMono-Light +ss01 +ss02 +ss04
+
+      # nvim sets the in_editor user var (see config/nvim/lua/mappings.lua);
+      # there ctrl+hjkl reach nvim itself instead of the arrow keys below, so
+      # they switch splits (NvChad's <C-hjkl>).
+      map --when-focus-on var:in_editor ctrl+h
+      map --when-focus-on var:in_editor ctrl+j
+      map --when-focus-on var:in_editor ctrl+k
+      map --when-focus-on var:in_editor ctrl+l
     '';
 
     settings = {
@@ -87,6 +95,11 @@ in {
       "ctrl+l" = "send_text all \\x1b[C";
       "shift+ctrl+h" = "send_text all \\e[1;5D";
       "shift+ctrl+l" = "send_text all \\e[1;5C";
+
+      ## Font zoom (the default ctrl+shift+equal/plus need Shift anyway on the CH layout)
+      "ctrl+shift+up" = "change_font_size all +2.0";
+      "ctrl+shift+down" = "change_font_size all -2.0";
+      "ctrl+shift+backspace" = "change_font_size all 0";
 
       ## Unbind
       "ctrl+shift+left" = "no_op";

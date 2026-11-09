@@ -6,7 +6,8 @@ local servers = {
   "lua_ls",
   "html",
   "cssls",
-  "ts_ls",
+  "tsc", -- TypeScript 7 native `tsc --lsp`: same checker as `tsc --noEmit`
+  "eslint",
   "svelte",
   "tailwindcss",
   "templ",

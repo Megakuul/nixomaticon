@@ -1,7 +1,14 @@
 # Nautilus / GTK file chooser: sort order and pinned sidebar folders.
-{config, ...}: let
+{
+  pkgs,
+  config,
+  ...
+}: let
   home = config.home.homeDirectory;
 in {
+  home.packages = with pkgs; [
+    filezilla
+  ];
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
