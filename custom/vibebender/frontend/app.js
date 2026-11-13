@@ -79,7 +79,8 @@ function onEvent(e) {
       $("promptvalue").focus();
       break;
     case "exit":
-      if (!sawState && (e.code === 126 || e.code === 127)) setState("idle", "Authorization cancelled.");
+      if (!sawState && e.code === 126) setState("idle", "Authorization cancelled.");
+      else if (!sawState && e.code === 127) setState("error", `Root authorization failed: ${e.error || "no polkit agent running?"}`);
       else if (state !== "error") setState("idle", e.code ? `Helper exited with code ${e.code}.` : undefined);
       break;
   }

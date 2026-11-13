@@ -113,6 +113,8 @@ func (s *NXSession) login(username, password, domain string, extra map[string]st
 
 	message := neMessage(resp)
 	twoFactor := resp.Header.Get("X-NE-tf")
+	slog.Debug("login response", "status", resp.StatusCode, "tf", twoFactor, "message", message,
+		"domain", domain, "challenge", extra != nil)
 
 	switch twoFactor {
 	case "5": // RADIUS challenge – re-login with the user's response

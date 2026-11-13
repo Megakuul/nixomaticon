@@ -87,13 +87,20 @@ func (a *App) Connect(cfg Config) error {
 	}
 
 	go a.relay(stdout)
+	// The last stderr line explains a pkexec failure (e.g. "No authentication
+	// agent found"), so it is passed along with the exit event.
+	var lastErr string
+	stderrDone := make(chan struct{})
 	go func() {
+		defer close(stderrDone)
 		s := bufio.NewScanner(stderr)
 		for s.Scan() {
-			a.emit(event{Event: "log", Level: "warn", Msg: s.Text(), Time: time.Now().Format(time.TimeOnly)})
+			lastErr = s.Text()
+			a.emit(event{Event: "log", Level: "warn", Msg: lastErr, Time: time.Now().Format(time.TimeOnly)})
 		}
 	}()
 	go func() {
+		<-stderrDone
 		err := cmd.Wait()
 		code := 0
 		var exitErr *exec.ExitError
@@ -105,7 +112,7 @@ func (a *App) Connect(cfg Config) error {
 		a.mu.Unlock()
 		close(done)
 		// pkexec: 126 = authorization dismissed/denied, 127 = not authorized.
-		a.emit(event{Event: "exit", Code: code})
+		a.emit(event{Event: "exit", Code: code, Error: lastErr})
 	}()
 	return nil
 }
